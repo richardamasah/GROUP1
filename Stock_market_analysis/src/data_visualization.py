@@ -44,3 +44,12 @@ def plot_volume(df):
     plt.ylabel('Volume')
     plt.tight_layout()
     plt.show()
+
+
+df = load_stock_data()
+df = preprocess_data(df)
+
+plot_closing_price(df)
+plot_correlation_heatmap(df)
+plot_close_distribution(df)
+plot_volume(df)
