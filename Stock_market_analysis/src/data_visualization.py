@@ -12,3 +12,15 @@ def preprocess_data(df):
     df['Date'] = pd.to_datetime(df['Date'])
     df = df.sort_values('Date')
     return df
+
+# Plot line chart of closing prices
+def plot_closing_price(df):
+    plt.figure(figsize=(12, 6))
+    plt.plot(df['Date'], df['Close'], label='Close Price')
+    plt.title('Stock Closing Price Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
