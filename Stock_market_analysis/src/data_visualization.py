@@ -24,3 +24,13 @@ def plot_closing_price(df):
     plt.legend()
     plt.tight_layout()
     plt.show()
+
+    # Correlation heatmap
+def plot_correlation_heatmap(df):
+    numeric_df = df.select_dtypes(include='number')
+    corr = numeric_df.corr()
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(corr, annot=True, cmap='coolwarm')
+    plt.title('Correlation Heatmap')
+    plt.tight_layout()
+    plt.show()
