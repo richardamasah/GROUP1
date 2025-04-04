@@ -34,3 +34,13 @@ def plot_correlation_heatmap(df):
     plt.title('Correlation Heatmap')
     plt.tight_layout()
     plt.show()
+
+    #  Volume over time
+def plot_volume(df):
+    plt.figure(figsize=(12, 6))
+    plt.plot(df['Date'], df['Volume'], color='orange')
+    plt.title('Stock Volume Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Volume')
+    plt.tight_layout()
+    plt.show()
