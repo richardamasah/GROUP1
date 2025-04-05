@@ -69,8 +69,8 @@ def clean_data(input_dir, output_path):
     return combined_df
 
 # Usage example
-input_dir = 'data/stocks'
-output_path = 'data/cleaned-stocks.parquet'
+input_dir = 'stock_market_analysis/data/stocks'
+output_path = 'stock_market_analysis/data/cleaned-stocks.parquet'
 
 # Call the function
 df = clean_data(input_dir, output_path)
