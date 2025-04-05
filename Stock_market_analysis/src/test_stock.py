@@ -3,6 +3,9 @@ import pandas as pd
 from src.moving_average import moving_average
 
 class TestStockFunctions(unittest.TestCase):
+    def test_clean_data(self):
+        pass
+
     def test_moving_average(self):
         stock_prices = pd.DataFrame({
             'close': [100, 200, 300, 400, 500]
