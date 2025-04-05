@@ -1,23 +1,23 @@
 
-#Importing Libraries
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-data = pd.read_parquet("/Users/hakeemwikireh/Desktop/DataEngineering/GroupAssignment/stockmarket/cleaned-stocks.parquet")
-
 #Data Exploration
-data.head()
 
-data.isnull().sum()
+def structure(df):
+    print("First 5 rows")
+    print(df.head())
 
-data.duplicated().sum()
+    print("Checking for null values")
+    print(df.isnull().sum())
 
-data.shape
-print("Total rows: ", data.shape[0])
-print("Total columns: ", data.shape[1])
+    print("checking for duplicates")
+    print(df.duplicated().sum())
 
-def eda(df):
+    print("Shape of data")
+    print(df.shape)
+
+    print("Total rows: ", df.shape[0])
+    print("Total columns: ", df.shape[1])
+
+def summary_statistics(df):
     '''
     - The Close price (final price of the stock at the end of each trading day) has a mean of 713,161 with a standard deviation of 146,252,100. This suggests that stock prices exhibit significant fluctuations over time, indicating market volatility.
 
@@ -41,13 +41,11 @@ The highest was 18 billion shares, suggesting extreme variations in trading acti
 
 - The mean date is approximately September 25, 2006, which suggests that the dataset is balanced around the mid-2000s.
     '''
-    print(df.describe())
+    return df.describe()
 
-    print('Top 5 highest and lowest stock prices')
-
-    top5 = data.nlargest(5, 'close')
-    print(top5)
-    bottom5 = data.nsmallest(5, 'close')
-    print(bottom5)
     
-eda(data)
+
+def top_n_stockprices(df, n=5):
+    top = df.nlargest(n, 'close')
+    bottom = df.nsmallest(n, 'close')
+    return top, bottom
