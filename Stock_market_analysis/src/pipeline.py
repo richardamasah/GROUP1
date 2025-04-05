@@ -1,7 +1,7 @@
 import pandas as pd
 from data_cleaning import clean_data
 from eda import summary_statistics ,top_n_stockprices , structure
-from visualization import preprocess_data, plot_closing_price, plot_correlation_heatmap ,plot_close_distribution, plot_volume
+from data_visualization import preprocess_data, plot_closing_price, plot_correlation_heatmap, plot_volume
 from moving_average import moving_average
 
 
