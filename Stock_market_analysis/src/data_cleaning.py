@@ -36,41 +36,48 @@ def clean_data(input_dir, output_path):
         
         # Read the CSV
         df = pd.read_csv(file_path)
-        
-        # Convert 'Date' to datetime
-        df['Date'] = pd.to_datetime(df['Date'])
-        
-        # Handle missing values (forward fill)
-        df.ffill(inplace=True)
-        
-        # Remove outliers (prices beyond 3 standard deviations)
-        for col in ['Open', 'High', 'Low', 'Close']:
-            if col in df.columns:  # Check if column exists
-                mean = df[col].mean()
-                std = df[col].std()
-                df = df[(df[col] >= mean - 3 * std) & (df[col] <= mean + 3 * std)]
-        
+
         # Standardize column names
         df.columns = [col.lower().replace(' ', '_') for col in df.columns]
         
-        # Optional: Add a column with the stock symbol from filename
-        df['symbol'] = file_path.stem  # Gets filename without extension
+        # Convert 'Date' to datetime
+        df['date'] = pd.to_datetime(df['date'])
         
+        # Handle missing values (forward fill)
+        df.ffill(inplace=True)
+
+
+        #Remove outliers using IQR method
+        price_cols = [col for col in ['open', 'high', 'low', 'close'] if col in df.columns]
+        if price_cols:
+            mask = True
+            for col in price_cols:
+                Q1 = df[col].quantile(0.25)
+                Q3 = df[col].quantile(0.75)
+                IQR = Q3 - Q1
+                lower_bound = Q1 - 1.5 * IQR
+                upper_bound = Q3 + 1.5 * IQR
+                mask &= (df[col] >= lower_bound) & (df[col] <= upper_bound)
+            df = df[mask]
+
+        df['symbol'] = file_path.stem  # Gets filename without extension
         all_dfs.append(df)
     
     # Combine all dataframes
     combined_df = pd.concat(all_dfs, ignore_index=True)
+
+    # Ensure output directory exists
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     
     # Save to parquet
     combined_df.to_parquet(output_path, engine='pyarrow', index=False)
-
     print(f"🎉 Successfully cleaned and saved data to: {output_path.resolve()}")
-    
+
     return combined_df
 
-# Usage example
-input_dir = 'stock_market_analysis/data/stocks'
-output_path = 'stock_market_analysis/data/cleaned-stocks.parquet'
+if __name__ == '__main__':
+    # Usage example
+    input_dir = 'Stock_market_analysis/data/stocks'
+    output_path = 'Stock_market_analysis/data/cleaned-stocks.parquet'
+    df = clean_data(input_dir, output_path)
 
-# Call the function
-df = clean_data(input_dir, output_path)
